@@ -71,7 +71,7 @@ for l_o_bit in l_output:
 	else:
 		for l_s_bit in l_sorted2:
 			if(abs(l_o_bit[0] - l_s_bit[0]) <= 5):
-				if(abs(l_o_bit[1] - l_s_bit[1]) <= 5)
+				if(abs(l_o_bit[1] - l_s_bit[1]) <= 5):
 					if(abs(l_o_bit[2] - l_s_bit[2]) <= 5):
 						new_color=False
 		if(new_color==True):
@@ -84,6 +84,7 @@ for l_o_bit in l_output:
 
 
 
+print('here are is the long list or most-common colors that we have produced: '+str(l_sorted2))
 
 
 
