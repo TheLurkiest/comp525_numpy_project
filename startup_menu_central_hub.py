@@ -14,6 +14,9 @@ a1=photo
 
 a2=a1[::7,::7]
 
+plt.imshow(a2)
+plt.show()
+
 y_a2=-1
 x_a2=-1
 
@@ -25,7 +28,7 @@ for e_a2 in a2:
     e_e_a2[0]=y_a2
     e_e_a2[1]=x_a2
 
-# 
+
 
 plt.imshow(a2)
 plt.show()
