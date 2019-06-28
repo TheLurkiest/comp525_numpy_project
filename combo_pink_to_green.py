@@ -82,6 +82,37 @@ plt.imshow(rgb_swap_pic)
 plt.show()
 
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+print('ok this should display a CLEAN, UNALTERED IMAGE NOW as well: ')
+
+a1 = io.imread('2019-03-04-042807_4.jpg')
+
+plt.imshow(a1)
+plt.show()
+
+p_reply=input('enter a number representing how much greater the the color you are searching for should be in proportion to the other two in the rgb color spectrum to be above the threshhold needed to cause our code to highlight it in the resulting image-- if unsure, the best default values for most images range from around 0 to 25: ')
+
+color_prop_buffer=int(p_reply)
+
+print('...now for the altered image: ')
+
+print('testing out the X attempt now...')
+
+boo_thresh_high = a1[:,:,0] > a1[:,:,1] + color_prop_buffer
+boo_thresh_high_g = a1[:,:,0] > a1[:,:,2] + color_prop_buffer
+
+
+booling2=boo_thresh_high & boo_thresh_high_g
+
+rgb_swap_pic=a1
+
+rgb_swap_pic[:,:,0][booling2] = 0
+plt.imshow(rgb_swap_pic)
+plt.show()
+
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 # ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
 # uncomment this for SIMPLER (BUT LESS POWERFUL) VERSION OF CODE ABOVE IT:
 
