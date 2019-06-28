@@ -31,7 +31,32 @@ while(p_reply<0 or p_reply>2):
 
 color_selection=int(p_reply)
 
+king_boo2=king_boo
 king_boo[:, :, color_selection] = True
+
+
+# ok here we try to create 
+
+a2=a1
+king_boo2[:, :, 1] = True
+
+boo_thresh_high_redder = a2[:,:,0] > (((a2[:,:,1] + a2[:,:,2])/2) +20)
+#booling2_r=boo_thresh_high_redder & king_boo2
+booling2_r=boo_thresh_high_redder
+
+rgb_swap_pic2=a2
+
+#rgb_swap_pic2[booling2_r] = 0
+rgb_swap_pic2[:,:,0][booling2_r] = 0
+
+
+plt.imshow(rgb_swap_pic2)
+plt.show()
+
+
+
+
+
 
 boo_thresh_high = a1 > 125
 booling2=boo_thresh_high & king_boo
