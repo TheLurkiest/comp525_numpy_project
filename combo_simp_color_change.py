@@ -13,26 +13,12 @@ from scipy import ndimage
 import numpy as np
 from glob import glob
 
-
-
-
-
-
-
+# ===========================================
 
 a1 = io.imread('2019-03-04-042807_4.jpg')
 
-# uncomment this line to make the job simpler (takes less time to make alterations/calculations, but rougher)
 # make the ::5, ::5 into larger numbers to simplify/quicken this process if too slow
 a1=a1[::5,::5]
-
-a1_backup=a1
-
-king_boo = np.zeros(a1.size,dtype=np.bool)
-king_boo.shape = (a1.shape[0],a1.shape[1],a1.shape[2])
-
-
-
 
 p_reply = -1
 
@@ -44,6 +30,19 @@ while(p_reply<0 or p_reply>2):
     p_reply = input('enter 0, 1, or 2 to alter how red, green or blue the photo is, respectively: ')
     p_reply = int(p_reply)
 
+color_highlighted=p_reply
+color_b=0
+color_c=0
+
+if(color_highlighted == 0):
+    color_b=1
+    color_c=2
+if(color_highlighted == 1):
+    color_b=0
+    color_c=2
+if(color_highlighted == 2):
+    color_b=0
+    color_c=1
 
 color_selection=int(p_reply)
 
@@ -64,18 +63,19 @@ print('...now for the altered image: ')
 
 print('testing out the X attempt now...')
 
-boo_thresh_high = a1[:,:,0] > a1[:,:,1] + color_prop_buffer
-boo_thresh_high_g = a1[:,:,0] > a1[:,:,2] + color_prop_buffer
-
+boo_thresh_high = a1[:,:,color_highlighted] > a1[:,:,color_b] + color_prop_buffer
+boo_thresh_high_g = a1[:,:,color_highlighted] > a1[:,:,color_c] + color_prop_buffer
 
 booling2=boo_thresh_high & boo_thresh_high_g
 
 rgb_swap_pic=a1
 
-rgb_swap_pic[:,:,0][booling2] = 0
+rgb_swap_pic[:,:,color_highlighted][booling2] = 0
 plt.imshow(rgb_swap_pic)
 plt.show()
 
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 # now to make things green:
