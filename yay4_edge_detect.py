@@ -27,7 +27,7 @@ import matplotlib.pyplot as plt
 # 002.gif
 
 #photo=io.imread('venusaur.png')
-photo = scipy.misc.imread('venusaur.png')
+photo = scipy.misc.imread('2019-03-04-042807_2.jpg')
 
 im = photo
 
@@ -62,7 +62,7 @@ plt.show()
 
 
 
-im = scipy.misc.imread('venusaur.png')
+im = scipy.misc.imread('2019-03-04-042807_3.jpg')
 im = im.astype('int32')
 dx = ndimage.sobel(im, 0)  # horizontal derivative
 dy = ndimage.sobel(im, 1)  # vertical derivative
@@ -86,7 +86,7 @@ plt.show()
 
 
 
-im = scipy.misc.imread('venusaur.png')
+im = scipy.misc.imread('2019-03-04-042807_4.jpg')
 im = im.astype('int32')
 dx = ndimage.sobel(im, 0)  # horizontal derivative
 dy = ndimage.sobel(im, 1)  # vertical derivative
@@ -137,19 +137,19 @@ plt.show()
 from skimage import io
 import imageio
 
-im=imageio.imread('bulbasaur.png')
+im=imageio.imread('2019-03-04-042807_5.jpg')
 
 
 plt.imshow(im)
 plt.show()
 
 
-#im = ndimage.rotate(im, 15, mode='constant')
-im = ndimage.gaussian_filter(im, 8)
+im = ndimage.rotate(im, 15, mode='constant')
+#im = ndimage.gaussian_filter(im, 8)
 
 
-#im = ndimage.rotate(im, 15, mode='constant')
-im = ndimage.gaussian_filter(im, 8)
+im = ndimage.rotate(im, 15, mode='constant')
+#im = ndimage.gaussian_filter(im, 8)
 
 
 sx = ndimage.sobel(im, axis=0, mode='constant')
@@ -192,18 +192,18 @@ p_reply='break in the code to exit, if desired.'
 from skimage import io
 import imageio
 
-im=imageio.imread('ivysaur.png')
+im=imageio.imread('2019-03-04-042807_5.jpg')
 
 
 plt.imshow(im)
 plt.show()
 
 
-#im = ndimage.rotate(im, 15, mode='constant')
+im = ndimage.rotate(im, 15, mode='constant')
 im = ndimage.gaussian_filter(im, 8)
 
 
-#im = ndimage.rotate(im, 15, mode='constant')
+im = ndimage.rotate(im, 15, mode='constant')
 im = ndimage.gaussian_filter(im, 8)
 
 
@@ -249,7 +249,7 @@ from skimage import io
 import imageio
 
 
-im=imageio.imread('pace.png')
+im=imageio.imread('2019-03-04-042807_5.jpg')
 #im=np.fromfile('fing333.jpg')
 
 
@@ -345,7 +345,7 @@ plt.show()
 
 
 
-im=imageio.imread('fing333.jpg')
+im=imageio.imread('2019-03-04-042807_5.jpg')
 
 
 plt.imshow(im)
