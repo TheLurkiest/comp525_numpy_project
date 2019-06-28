@@ -15,13 +15,21 @@ from glob import glob
 
 # ===========================================
 
+from scipy.misc import imsave
+
+# ===========================================
 
 #fing111.jpg
 #a1 = io.imread('2019-03-04-042807_4.jpg')
-a1 = io.imread('fing111.jpg')
+#a1 = io.imread('fing111.jpg')
+a1 = io.imread('venusaur.png')
 
-# make the ::5, ::5 into larger numbers to simplify/quicken this process if too slow
-a1=a1[::5,::5]
+plt.imshow(a1)
+plt.show()
+
+
+# this makes our image array coarser and therefore, quicker to perform changes to-- comment/uncomment this statement below to make things quicker or more detailed/slower-- or increase/decrease the numbers ::5, ::5 to fine-tune this feature:
+#a1=a1[::5,::5]
 
 p_reply = -1
 
@@ -51,24 +59,32 @@ color_selection=int(p_reply)
 
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-print('ok this should display a CLEAN, UNALTERED IMAGE NOW as well: ')
+#print('ok this should display a CLEAN, UNALTERED IMAGE NOW as well: ')
 
 #a1 = io.imread('2019-03-04-042807_4.jpg')
-a1 = io.imread('fing111.jpg')
+#a1 = io.imread('fing111.jpg')
 
-plt.imshow(a1)
-plt.show()
+#p_reply=input('enter a number representing how much greater the the color you are searching for should be in proportion to the other two in the rgb color spectrum to be above the threshhold needed to cause our code to highlight it in the resulting image-- if unsure, the best default values for most images range from around 0 to 25: ')
 
-p_reply=input('enter a number representing how much greater the the color you are searching for should be in proportion to the other two in the rgb color spectrum to be above the threshhold needed to cause our code to highlight it in the resulting image-- if unsure, the best default values for most images range from around 0 to 25: ')
+#color_prop_buffer=int(p_reply)
 
-color_prop_buffer=int(p_reply)
+print('for our purposes, rgb color choices are represented by 0, 1 and 2, respectively, representing their specific index.  For example, to select RED as an answer to one of these prompts therefore, you must enter 0 instead.  The prompts and printed statements will also refer to RED as 0 when asking the user questions.')
+
+print('we now ask questions pertaining to how much greater the color you wish to highlight is compared to each of the other two.  Choosing numbers between 0 and 25 is a good rule of thumb if unsure.  However, often you may find that choosing numbers here closer to 40 or 50 may be ideal.')
+
+p_reply=input('enter how much greater you want the color you are searching for to be compared to the color in index '+ str(color_b) + ' within rgb.  ')
+color_prop_buffer_b=int(p_reply)
+
+p_reply=input('enter how much greater you want the color you are searching for to be compared to the color in index ' + str(color_c) + ' within rgb.  ')
+color_prop_buffer_c=int(p_reply)
+
 
 print('...now for the altered image: ')
 
 print('testing out the X attempt now...')
 
-boo_thresh_high = a1[:,:,color_highlighted] > a1[:,:,color_b] + color_prop_buffer
-boo_thresh_high_g = a1[:,:,color_highlighted] > a1[:,:,color_c] + color_prop_buffer
+boo_thresh_high = a1[:,:,color_highlighted] > a1[:,:,color_b] + color_prop_buffer_b
+boo_thresh_high_g = a1[:,:,color_highlighted] > a1[:,:,color_c] + color_prop_buffer_c
 
 booling2=boo_thresh_high & boo_thresh_high_g
 
@@ -110,6 +126,9 @@ rgb_swap_pic[:,:,2][booling2] = 125
 plt.imshow(rgb_swap_pic)
 plt.show()
 
+imsave('red_alt.png', rgb_swap_pic)
+
+
 
 
 print('now we allow you to pick how you want to highlight the selected portions of this image')
@@ -130,17 +149,33 @@ rgb_swap_pic[:,:,2][booling2] = p_reply
 plt.imshow(rgb_swap_pic)
 plt.show()
 
+imsave('selected_color_change.png', rgb_swap_pic)
 
 
 
 
 im=rgb_swap_pic
+
+im = ndimage.gaussian_filter(im, 8)
+
 rgb_swap_pic = rgb_swap_pic.astype('int32')
 dx = ndimage.sobel(im, 0)  # horizontal derivative
 dy = ndimage.sobel(im, 1)  # vertical derivative
 mag = numpy.hypot(dx, dy)  # magnitude
 mag *= 255.0 / numpy.max(mag)  # normalize (Q&D)
 scipy.misc.imsave('sobel_alt.png', mag)
+
+
+
+im=rgb_swap_pic
+im = ndimage.gaussian_filter(im, 8)
+sx = ndimage.sobel(im, axis=0, mode='constant')
+sy = ndimage.sobel(im, axis=1, mode='constant')
+sob = np.hypot(sx, sy)
+
+plt.imshow(im)
+
+imsave('sobel_alt2.png', im)
 
 
 #------------------------------------------------------------------------
