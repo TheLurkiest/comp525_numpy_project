@@ -249,7 +249,7 @@ from skimage import io
 import imageio
 
 
-im=imageio.imread('2019-03-04-042807_5.jpg')
+im=imageio.imread('2019-03-04-042807_3.jpg')
 #im=np.fromfile('fing333.jpg')
 
 
@@ -299,7 +299,6 @@ plt.show()
 # ===========================================
 
 
-#im=np.fromfile('finger2.raw')
 
 im = np.zeros((256, 256))
 im[64:-64, 64:-64] = 1
@@ -345,7 +344,7 @@ plt.show()
 
 
 
-im=imageio.imread('2019-03-04-042807_5.jpg')
+im=imageio.imread('2019-03-04-042807_4.jpg')
 
 
 plt.imshow(im)
