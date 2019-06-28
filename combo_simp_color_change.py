@@ -41,6 +41,9 @@ while(p_reply<0 or p_reply>2):
     p_reply = input('enter 0, 1, or 2 to alter how red, green or blue the photo is, respectively: ')
     p_reply = int(p_reply)
 
+
+
+
 color_highlighted=p_reply
 color_b=0
 color_c=0
@@ -48,12 +51,25 @@ color_c=0
 if(color_highlighted == 0):
     color_b=1
     color_c=2
+
+
+
 if(color_highlighted == 1):
     color_b=0
     color_c=2
+
+
+
+
+
 if(color_highlighted == 2):
     color_b=0
     color_c=1
+
+
+
+
+
 
 color_selection=int(p_reply)
 
@@ -72,10 +88,10 @@ print('for our purposes, rgb color choices are represented by 0, 1 and 2, respec
 
 print('we now ask questions pertaining to how much greater the color you wish to highlight is compared to each of the other two.  Choosing numbers between 0 and 25 is a good rule of thumb if unsure.  However, often you may find that choosing numbers here closer to 40 or 50 may be ideal.')
 
-p_reply=input('enter how much greater you want the color you are searching for to be compared to the color in index '+ str(color_b) + ' within rgb.  ')
+p_reply=input('enter how much greater you want the color you are searching for to be compared to the color in index '+ str(['red','green','blue'][color_b]) + ' within rgb.  ')
 color_prop_buffer_b=int(p_reply)
 
-p_reply=input('enter how much greater you want the color you are searching for to be compared to the color in index ' + str(color_c) + ' within rgb.  ')
+p_reply=input('enter how much greater you want the color you are searching for to be compared to the color in index ' + str(['red','green','blue'][color_c]) + ' within rgb.  ')
 color_prop_buffer_c=int(p_reply)
 
 
@@ -83,10 +99,27 @@ print('...now for the altered image: ')
 
 print('testing out the X attempt now...')
 
-boo_thresh_high = a1[:,:,color_highlighted] > a1[:,:,color_b] + color_prop_buffer_b
-boo_thresh_high_g = a1[:,:,color_highlighted] > a1[:,:,color_c] + color_prop_buffer_c
+boo_thresh_high_b = a1[:,:,color_highlighted] > a1[:,:,color_b] + color_prop_buffer_b
+boo_thresh_high_c = a1[:,:,color_highlighted] > a1[:,:,color_c] + color_prop_buffer_c
 
-booling2=boo_thresh_high & boo_thresh_high_g
+default_max_color_b=-1000
+default_max_color_c=-1000
+
+p_reply=input('enter "red", "green" or "blue" if you wish to assign a max threshhold values for your color search for one of those color values: ')
+if(p_reply==str(['red','green','blue'][color_b])):
+    p_reply=input('enter MAX color value buffer for the color ' + str(['red','green','blue'][color_b]) + ' (suggested values= 10-80... just enter 255 if you do not want a max threshhold): ')
+    default_max_color_b=int(p_reply)
+    boo_thresh_high_max_b = a1[:,:,color_highlighted] < a1[:,:,color_b] + color_prop_buffer_b + default_max_color_b
+    booling2=boo_thresh_high_b & boo_thresh_high_c & boo_thresh_high_max_b
+elif(p_reply==str(['red','green','blue'][color_c])):
+    p_reply=input('enter MAX color value buffer for the color ' + str(['red','green','blue'][color_c]) + ' (suggested values= 10-80... just enter 255 if you do not want a max threshhold): ')
+    default_max_color_c=int(p_reply)
+    boo_thresh_high_max_c = a1[:,:,color_highlighted] < a1[:,:,color_c] + color_prop_buffer_c + default_max_color_c
+    booling2=boo_thresh_high_b & boo_thresh_high_c & boo_thresh_high_max_c
+else:
+    booling2=boo_thresh_high_b & boo_thresh_high_c
+
+anti_booling2 = ~ booling2
 
 rgb_swap_pic=a1
 
@@ -131,6 +164,7 @@ imsave('red_alt.png', rgb_swap_pic)
 
 
 
+
 print('now we allow you to pick how you want to highlight the selected portions of this image')
 
 p_reply=input('from 0 to 255, how RED do you want the highlighted portions of this image to be?')
@@ -154,61 +188,21 @@ imsave('selected_color_change.png', rgb_swap_pic)
 
 
 
-im=rgb_swap_pic
-
-im = ndimage.gaussian_filter(im, 8)
-
-rgb_swap_pic = rgb_swap_pic.astype('int32')
-dx = ndimage.sobel(im, 0)  # horizontal derivative
-dy = ndimage.sobel(im, 1)  # vertical derivative
-mag = numpy.hypot(dx, dy)  # magnitude
-mag *= 255.0 / numpy.max(mag)  # normalize (Q&D)
-scipy.misc.imsave('sobel_alt.png', mag)
-
-
-
-im=rgb_swap_pic
-im = ndimage.gaussian_filter(im, 8)
-sx = ndimage.sobel(im, axis=0, mode='constant')
-sy = ndimage.sobel(im, axis=1, mode='constant')
-sob = np.hypot(sx, sy)
-
-plt.imshow(im)
-
-imsave('sobel_alt2.png', im)
+h_only = rgb_swap_pic
+try:
+    h_only[:,:,3][anti_booling2] = 0
+    h_only[:,:,0][anti_booling2] = 255
+    h_only[:,:,1][anti_booling2] = 255    
+    h_only[:,:,2][anti_booling2] = 0   
+except:
+    h_only[:,:,0][anti_booling2] = 255
+    h_only[:,:,1][anti_booling2] = 255    
+    h_only[:,:,2][anti_booling2] = 0   
 
 
-#------------------------------------------------------------------------
-
-plt.imshow(im)
+plt.imshow(h_only)
 plt.show()
-
-
-#im = ndimage.rotate(im, 15, mode='constant')
-#im = ndimage.gaussian_filter(im, 8)
-
-#im = ndimage.rotate(im, 15, mode='constant')
-im = ndimage.gaussian_filter(im, 8)
-
-
-sx = ndimage.sobel(im, axis=0, mode='constant')
-sy = ndimage.sobel(im, axis=1, mode='constant')
-sob = np.hypot(sx, sy)
-
-plt.imshow(im)
-
-plt.show()
-plt.imshow(sx)
-
-plt.show()
-plt.imshow(sy)
-
-plt.show()
-plt.imshow(sob)
-
-plt.show()
-
-
+imsave('highlighted_color_only.png', h_only)
 
 
 #------------------------------------------------------------------------
