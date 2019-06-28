@@ -11,6 +11,7 @@ a1 = io.imread('2019-03-04-042807_4.jpg')
 # make the ::5, ::5 into larger numbers to simplify/quicken this process if too slow
 a1=a1[::5,::5]
 
+a1_backup=a1
 
 king_boo = np.zeros(a1.size,dtype=np.bool)
 king_boo.shape = (a1.shape[0],a1.shape[1],a1.shape[2])
@@ -38,9 +39,9 @@ king_boo[:, :, color_selection] = True
 # ok here we try to create 
 
 a2=a1
-king_boo2[:, :, 1] = True
+king_boo2[:, :, 0] = True
 
-boo_thresh_high_redder = a2[:,:,0] > (((a2[:,:,1] + a2[:,:,2])/2) +20)
+boo_thresh_high_redder = a2[:,:,0] > (((a2[:,:,1] + a2[:,:,2])/2) +40)
 #booling2_r=boo_thresh_high_redder & king_boo2
 booling2_r=boo_thresh_high_redder
 
@@ -55,18 +56,44 @@ plt.show()
 
 
 
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+print('ok this should display a CLEAN, UNALTERED IMAGE NOW: ')
+
+a1 = io.imread('2019-03-04-042807_4.jpg')
+
+plt.imshow(a1)
+plt.show()
+
+print('...now for the altered image: ')
+
+print('testing out the X attempt now...')
+
+boo_thresh_high = a1[:,:,0] > a1[:,:,1] + 5
+boo_thresh_high_g = a1[:,:,0] > a1[:,:,2] + 5
 
 
-
-boo_thresh_high = a1 > 125
-booling2=boo_thresh_high & king_boo
+booling2=boo_thresh_high & boo_thresh_high_g
 
 rgb_swap_pic=a1
 
-rgb_swap_pic[booling2] = 0
+rgb_swap_pic[:,:,0][booling2] = 0
 plt.imshow(rgb_swap_pic)
 plt.show()
 
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+# ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
+# uncomment this for SIMPLER (BUT LESS POWERFUL) VERSION OF CODE ABOVE IT:
+
+#boo_thresh_high = a1 > 125
+#booling2=boo_thresh_high & king_boo
+
+#rgb_swap_pic=a1
+
+#rgb_swap_pic[booling2] = 0
+#plt.imshow(rgb_swap_pic)
+#plt.show()
+# ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
 
 
 
