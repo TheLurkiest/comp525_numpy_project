@@ -15,7 +15,10 @@ from glob import glob
 
 # ===========================================
 
-a1 = io.imread('2019-03-04-042807_4.jpg')
+
+#fing111.jpg
+#a1 = io.imread('2019-03-04-042807_4.jpg')
+a1 = io.imread('fing111.jpg')
 
 # make the ::5, ::5 into larger numbers to simplify/quicken this process if too slow
 a1=a1[::5,::5]
@@ -50,7 +53,8 @@ color_selection=int(p_reply)
 
 print('ok this should display a CLEAN, UNALTERED IMAGE NOW as well: ')
 
-a1 = io.imread('2019-03-04-042807_4.jpg')
+#a1 = io.imread('2019-03-04-042807_4.jpg')
+a1 = io.imread('fing111.jpg')
 
 plt.imshow(a1)
 plt.show()
@@ -131,6 +135,12 @@ plt.show()
 
 
 im=rgb_swap_pic
+rgb_swap_pic = rgb_swap_pic.astype('int32')
+dx = ndimage.sobel(im, 0)  # horizontal derivative
+dy = ndimage.sobel(im, 1)  # vertical derivative
+mag = numpy.hypot(dx, dy)  # magnitude
+mag *= 255.0 / numpy.max(mag)  # normalize (Q&D)
+scipy.misc.imsave('sobel_alt.png', mag)
 
 
 #------------------------------------------------------------------------
